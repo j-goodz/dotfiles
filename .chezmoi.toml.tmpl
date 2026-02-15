@@ -5,7 +5,7 @@
 
 [keepassxc]
 {{- if eq .chezmoi.os "windows" }}
-  database = "C:/Sync/KeePass/AI API Keys.kdbx"
+  database = "G:/My Drive/KeePass/AI API Keys.kdbx"
   command = "C:/Program Files/KeePassXC/keepassxc-cli.exe"
 {{- else if $isVPS }}
   database = "/home/justin/Sync/KeePass/AI API Keys.kdbx"
