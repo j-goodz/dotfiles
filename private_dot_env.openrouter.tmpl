@@ -1,18 +1,20 @@
-{{- /* Per-machine OpenRouter API keys from KeePass */ -}}
-{{- if eq .chezmoi.os "windows" -}}
-# OpenRouter API Keys - Windows
-OPENROUTER_API_KEY={{ keepassxc "OpenRouter-Win-Claude" }}
-OPENROUTER_API_KEY_AIDER={{ keepassxc "OpenRouter-Win-Aider" }}
-OPENROUTER_API_KEY_CURSOR={{ keepassxc "OpenRouter-Cursor" }}
-OPENROUTER_API_KEY_WINDSURF={{ keepassxc "OpenRouter-Windsurf" }}
-OPENROUTER_API_KEY_CLINE={{ keepassxc "OpenRouter-Cline" }}
-{{- else if eq .chezmoi.hostname "cloud-server" -}}
-# OpenRouter API Keys - VPS
-OPENROUTER_API_KEY={{ keepassxc "OpenRouter-Cloud-Claude" }}
-OPENROUTER_API_KEY_AIDER={{ keepassxc "OpenRouter-Cloud-Aider" }}
-OPENROUTER_API_KEY_HETZNER={{ keepassxc "cloud-server (hetzner)" }}
-{{- else -}}
-# OpenRouter API Keys - WSL
-OPENROUTER_API_KEY={{ keepassxc "OpenRouter-WSL-Claude" }}
-OPENROUTER_API_KEY_AIDER={{ keepassxc "OpenRouter-WSL-Aider" }}
-{{- end }}
+# OpenRouter API Keys (from KeePass)
+OPENROUTER_KEY_ZAPIER={{ keepassxc "OpenRouter-Zapier" }}
+OPENROUTER_KEY_WSL_CLAUDE={{ keepassxc "OpenRouter-WSL-Claude" }}
+OPENROUTER_KEY_WSL_AIDER={{ keepassxc "OpenRouter-WSL-Aider" }}
+OPENROUTER_KEY_WINDSURF={{ keepassxc "OpenRouter-Windsurf" }}
+OPENROUTER_KEY_WIN_CLAUDE={{ keepassxc "OpenRouter-Win-Claude" }}
+OPENROUTER_KEY_WIN_AIDER={{ keepassxc "OpenRouter-Win-Aider" }}
+OPENROUTER_KEY_TYPINGMIND={{ keepassxc "OpenRouter-TypingMind" }}
+OPENROUTER_KEY_PORTMAN={{ keepassxc "OpenRouter-Portman" }}
+OPENROUTER_KEY_PERPLEXITY={{ keepassxc "OpenRouter-Perplexity" }}
+OPENROUTER_KEY_OPENCLAW={{ keepassxc "OpenRouter-OpenClaw" }}
+OPENROUTER_KEY_NOTEBOOKLM={{ keepassxc "OpenRouter-NotebookLM" }}
+OPENROUTER_KEY_N8N={{ keepassxc "OpenRouter-n8n" }}
+OPENROUTER_KEY_LUMIO={{ keepassxc "OpenRouter-Lumio" }}
+OPENROUTER_KEY_GENEALOGY={{ keepassxc "OpenRouter-Genealogy" }}
+OPENROUTER_KEY_CURSOR={{ keepassxc "OpenRouter-Cursor" }}
+OPENROUTER_KEY_CLOUD_CLAUDE={{ keepassxc "OpenRouter-Cloud-Claude" }}
+OPENROUTER_KEY_CLOUD_AIDER={{ keepassxc "OpenRouter-Cloud-Aider" }}
+OPENROUTER_KEY_CLINE={{ keepassxc "OpenRouter-Cline" }}
+OPENROUTER_KEY_HETZNER={{ keepassxc "cloud-server (hetzner)" }}
