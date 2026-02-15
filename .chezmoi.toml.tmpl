@@ -1,0 +1,14 @@
+{{- $isVPS := eq .chezmoi.hostname "cloud-server" -}}
+[data]
+  email = "goodyer@gmail.com"
+  name = "Justin"
+
+[keepassxc]
+{{- if eq .chezmoi.os "windows" }}
+  database = "C:/Sync/KeePass/AI API Keys.kdbx"
+  command = "C:/Program Files/KeePassXC/keepassxc-cli.exe"
+{{- else if $isVPS }}
+  database = "/home/justin/Sync/KeePass/AI API Keys.kdbx"
+{{- else }}
+  database = "/mnt/c/Sync/KeePass/AI API Keys.kdbx"
+{{- end }}

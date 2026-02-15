@@ -1,0 +1,18 @@
+{{- /* Per-machine OpenRouter API keys from KeePass */ -}}
+{{- if eq .chezmoi.os "windows" -}}
+# OpenRouter API Keys - Windows
+OPENROUTER_API_KEY={{ keepassxc "OpenRouter-Win-Claude" }}
+OPENROUTER_API_KEY_AIDER={{ keepassxc "OpenRouter-Win-Aider" }}
+OPENROUTER_API_KEY_CURSOR={{ keepassxc "OpenRouter-Cursor" }}
+OPENROUTER_API_KEY_WINDSURF={{ keepassxc "OpenRouter-Windsurf" }}
+OPENROUTER_API_KEY_CLINE={{ keepassxc "OpenRouter-Cline" }}
+{{- else if eq .chezmoi.hostname "cloud-server" -}}
+# OpenRouter API Keys - VPS
+OPENROUTER_API_KEY={{ keepassxc "OpenRouter-Cloud-Claude" }}
+OPENROUTER_API_KEY_AIDER={{ keepassxc "OpenRouter-Cloud-Aider" }}
+OPENROUTER_API_KEY_HETZNER={{ keepassxc "cloud-server (hetzner)" }}
+{{- else -}}
+# OpenRouter API Keys - WSL
+OPENROUTER_API_KEY={{ keepassxc "OpenRouter-WSL-Claude" }}
+OPENROUTER_API_KEY_AIDER={{ keepassxc "OpenRouter-WSL-Aider" }}
+{{- end }}
