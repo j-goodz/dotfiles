@@ -101,3 +101,10 @@ show-models() {
 }
 
 alias clauded='claude --dangerously-skip-permissions'
+
+update-dotfiles() {
+    ~/bin/chezmoi update
+    ~/bin/chezmoi init
+    ~/bin/chezmoi apply -v
+    echo -e "\e[32m[OK] Dotfiles updated!\e[0m"
+}

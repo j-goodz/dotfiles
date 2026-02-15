@@ -96,3 +96,10 @@ function Show-Models {
 }
 
 function clauded { claude --dangerously-skip-permissions $args }
+
+function Update-Dotfiles {
+    chezmoi update
+    chezmoi init
+    chezmoi apply -v
+    Write-Host "[OK] Dotfiles updated!" -ForegroundColor Green
+}
