@@ -106,5 +106,6 @@ dotup() {
     ~/bin/chezmoi update
     ~/bin/chezmoi init
     ~/bin/chezmoi apply -v
-    echo -e "\e[32m[OK] Dotfiles updated!\e[0m"
+    source ~/.bashrc
+    echo -e "\e[32m[OK] Dotfiles updated and profile reloaded!\e[0m"
 }
