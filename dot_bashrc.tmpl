@@ -102,7 +102,7 @@ show-models() {
 
 alias clauded='claude --dangerously-skip-permissions'
 
-update-dotfiles() {
+dotup() {
     ~/bin/chezmoi update
     ~/bin/chezmoi init
     ~/bin/chezmoi apply -v

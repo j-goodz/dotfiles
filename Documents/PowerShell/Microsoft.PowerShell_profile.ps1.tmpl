@@ -97,7 +97,7 @@ function Show-Models {
 
 function clauded { claude --dangerously-skip-permissions $args }
 
-function Update-Dotfiles {
+function dotup {
     chezmoi update
     chezmoi init
     chezmoi apply -v
