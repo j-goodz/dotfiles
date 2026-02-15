@@ -1,0 +1,11 @@
+{
+    "claudeCode.preferredLocation": "panel",
+    "workbench.editor.enablePreview": false,
+    "remote.SSH.remotePlatform": {
+        "cloud": "linux"
+    },
+    "security.allowedUNCHosts": [
+        "wsl.localhost"
+    ],
+    "workbench.startupEditor": "none"
+}

@@ -1,0 +1,98 @@
+# ==========================================================
+#  CLAUDE MODE SWITCHER (Windows PowerShell)
+#  Reference Chat: https://gemini.google.com/app/dc78807190489dbe
+# ==========================================================
+
+# 1. SETUP API KEYS (from KeePass via chezmoi)
+$env:OPENROUTER_API_KEY = "{{ keepassxc "cloud-server (hetzner)" }}"
+
+# 2. PATHS
+$ClaudeConfigDir = Join-Path $HOME ".config\claude-code"
+$AuthFile = Join-Path $ClaudeConfigDir "auth.json"
+$AuthBackup = Join-Path $ClaudeConfigDir "auth.json.bak"
+
+# --- HELPER: Hide Official Auth ---
+function Hide-Auth {
+    if (Test-Path $AuthFile) {
+        Rename-Item -Path $AuthFile -NewName "auth.json.bak"
+        Write-Host "[SECURE] Official session hidden (Simulating logout)." -ForegroundColor Yellow
+    }
+}
+
+# --- HELPER: Restore Official Auth ---
+function Restore-Auth {
+    if (Test-Path $AuthBackup) {
+        Rename-Item -Path $AuthBackup -NewName "auth.json"
+        Write-Host "[RESTORED] Official session restored." -ForegroundColor Green
+    }
+}
+
+# --- MODEL COMMANDS ---
+
+function Set-V3 {
+    Hide-Auth
+    $env:ANTHROPIC_BASE_URL = "https://openrouter.ai/api"
+    $env:ANTHROPIC_AUTH_TOKEN = $env:OPENROUTER_API_KEY
+    $env:ANTHROPIC_API_KEY = $null
+    $env:ANTHROPIC_MODEL = "deepseek/deepseek-chat"
+    Write-Host "[OK] Switched to: DeepSeek V3 (64k Context)" -ForegroundColor Cyan
+}
+
+function Set-R1 {
+    Hide-Auth
+    $env:ANTHROPIC_BASE_URL = "https://openrouter.ai/api"
+    $env:ANTHROPIC_AUTH_TOKEN = $env:OPENROUTER_API_KEY
+    $env:ANTHROPIC_API_KEY = $null
+    $env:ANTHROPIC_MODEL = "deepseek/deepseek-r1"
+    Write-Host "[OK] Switched to: DeepSeek R1 (Reasoning)" -ForegroundColor Cyan
+}
+
+function Set-Flash {
+    Hide-Auth
+    $env:ANTHROPIC_BASE_URL = "https://openrouter.ai/api"
+    $env:ANTHROPIC_AUTH_TOKEN = $env:OPENROUTER_API_KEY
+    $env:ANTHROPIC_API_KEY = $null
+    $env:ANTHROPIC_MODEL = "google/gemini-2.0-flash-001"
+    Write-Host "[OK] Switched to: Gemini Flash 2.0 (1M Context)" -ForegroundColor Cyan
+}
+
+function Set-Qwen {
+    Hide-Auth
+    $env:ANTHROPIC_BASE_URL = "https://openrouter.ai/api"
+    $env:ANTHROPIC_AUTH_TOKEN = $env:OPENROUTER_API_KEY
+    $env:ANTHROPIC_API_KEY = $null
+    $env:ANTHROPIC_MODEL = "qwen/qwen-2.5-72b-instruct"
+    Write-Host "[OK] Switched to: Qwen 2.5 72B (128k Context)" -ForegroundColor Cyan
+}
+
+function Set-Sonnet {
+    Restore-Auth
+    $env:ANTHROPIC_BASE_URL = $null
+    $env:ANTHROPIC_AUTH_TOKEN = $null
+    $env:ANTHROPIC_API_KEY = $null
+    $env:ANTHROPIC_MODEL = $null
+    Write-Host "[OK] Switched to: Claude 3.5 Sonnet (Official)" -ForegroundColor Green
+}
+
+# --- UTILITIES ---
+
+function Reload {
+    . $PROFILE
+    Write-Host "[OK] Configuration reloaded!" -ForegroundColor Green
+}
+
+function Show-Models {
+    Write-Host "======================================================================" -ForegroundColor Gray
+    Write-Host " CLAUDE MODEL SWITCHER (Windows)" -ForegroundColor White
+    Write-Host " Ref: https://gemini.google.com/app/dc78807190489dbe" -ForegroundColor DarkGray
+    Write-Host "======================================================================" -ForegroundColor Gray
+    Write-Host " Set-V3      DeepSeek V3        (64k)   | Daily Driver (`$0.14/M)" -ForegroundColor Green
+    Write-Host " Set-R1      DeepSeek R1        (64k)   | Logic & Math (`$0.55/M)" -ForegroundColor Green
+    Write-Host " Set-Flash   Gemini Flash 2.0   (1M)    | Huge Context (Free/Cheap)" -ForegroundColor Green
+    Write-Host " Set-Qwen    Qwen 2.5 72B       (128k)  | Coding Alt   (`$0.35/M)" -ForegroundColor Green
+    Write-Host "----------------------------------------------------------------------" -ForegroundColor Gray
+    Write-Host " Set-Sonnet  Claude 3.5 Sonnet  (200k)  | OFFICIAL     (`$15.00/M)" -ForegroundColor Cyan
+    Write-Host "======================================================================" -ForegroundColor Gray
+}
+
+function clauded { claude --dangerously-skip-permissions $args }

@@ -1,0 +1,103 @@
+# ==========================================================
+#  CLAUDE MODE SWITCHER (Bash)
+# ==========================================================
+
+# API Key (from KeePass via chezmoi)
+{{- if eq .chezmoi.hostname "cloud-server" }}
+export OPENROUTER_API_KEY="{{ keepassxc "cloud-server (hetzner)" }}"
+{{- else }}
+export OPENROUTER_API_KEY="{{ keepassxc "OpenRouter-WSL-Claude" }}"
+{{- end }}
+
+# Paths
+CLAUDE_CONFIG_DIR="$HOME/.config/claude-code"
+AUTH_FILE="$CLAUDE_CONFIG_DIR/auth.json"
+AUTH_BACKUP="$CLAUDE_CONFIG_DIR/auth.json.bak"
+
+# chezmoi
+export PATH="$HOME/bin:$PATH"
+
+# --- HELPER: Hide Official Auth ---
+hide-auth() {
+    if [ -f "$AUTH_FILE" ]; then
+        mv "$AUTH_FILE" "$AUTH_BACKUP"
+        echo -e "\e[33m[SECURE] Official session hidden (Simulating logout).\e[0m"
+    fi
+}
+
+# --- HELPER: Restore Official Auth ---
+restore-auth() {
+    if [ -f "$AUTH_BACKUP" ]; then
+        mv "$AUTH_BACKUP" "$AUTH_FILE"
+        echo -e "\e[32m[RESTORED] Official session restored.\e[0m"
+    fi
+}
+
+# --- MODEL COMMANDS ---
+
+set-v3() {
+    hide-auth
+    export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
+    export ANTHROPIC_AUTH_TOKEN="$OPENROUTER_API_KEY"
+    unset ANTHROPIC_API_KEY
+    export ANTHROPIC_MODEL="deepseek/deepseek-chat"
+    echo -e "\e[36m[OK] Switched to: DeepSeek V3 (64k Context)\e[0m"
+}
+
+set-r1() {
+    hide-auth
+    export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
+    export ANTHROPIC_AUTH_TOKEN="$OPENROUTER_API_KEY"
+    unset ANTHROPIC_API_KEY
+    export ANTHROPIC_MODEL="deepseek/deepseek-r1"
+    echo -e "\e[36m[OK] Switched to: DeepSeek R1 (Reasoning)\e[0m"
+}
+
+set-flash() {
+    hide-auth
+    export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
+    export ANTHROPIC_AUTH_TOKEN="$OPENROUTER_API_KEY"
+    unset ANTHROPIC_API_KEY
+    export ANTHROPIC_MODEL="google/gemini-2.0-flash-001"
+    echo -e "\e[36m[OK] Switched to: Gemini Flash 2.0 (1M Context)\e[0m"
+}
+
+set-qwen() {
+    hide-auth
+    export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
+    export ANTHROPIC_AUTH_TOKEN="$OPENROUTER_API_KEY"
+    unset ANTHROPIC_API_KEY
+    export ANTHROPIC_MODEL="qwen/qwen-2.5-72b-instruct"
+    echo -e "\e[36m[OK] Switched to: Qwen 2.5 72B (128k Context)\e[0m"
+}
+
+set-sonnet() {
+    restore-auth
+    unset ANTHROPIC_BASE_URL
+    unset ANTHROPIC_AUTH_TOKEN
+    unset ANTHROPIC_API_KEY
+    unset ANTHROPIC_MODEL
+    echo -e "\e[32m[OK] Switched to: Claude 3.5 Sonnet (Official)\e[0m"
+}
+
+# --- UTILITIES ---
+
+reload() {
+    source ~/.bashrc
+    echo -e "\e[32m[OK] Configuration reloaded!\e[0m"
+}
+
+show-models() {
+    echo "======================================================================"
+    echo " CLAUDE MODEL SWITCHER (Linux)"
+    echo "======================================================================"
+    echo " set-v3      DeepSeek V3        (64k)   | Daily Driver (\$0.14/M)"
+    echo " set-r1      DeepSeek R1        (64k)   | Logic & Math (\$0.55/M)"
+    echo " set-flash   Gemini Flash 2.0   (1M)    | Huge Context (Free/Cheap)"
+    echo " set-qwen    Qwen 2.5 72B       (128k)  | Coding Alt   (\$0.35/M)"
+    echo "----------------------------------------------------------------------"
+    echo " set-sonnet  Claude 3.5 Sonnet  (200k)  | OFFICIAL     (\$15.00/M)"
+    echo "======================================================================"
+}
+
+alias clauded='claude --dangerously-skip-permissions'
