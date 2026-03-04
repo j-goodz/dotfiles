@@ -104,6 +104,9 @@ alias clauded='claude --dangerously-skip-permissions'
 alias claudedc='claude --dangerously-skip-permissions --continue'
 
 dotup() {
+    # Save any local changes into chezmoi first
+    ~/bin/chezmoi re-add
+    # Pull remote changes and apply (auto-merge, no prompts)
     ~/bin/chezmoi update --force
     source ~/.bashrc
     echo -e "\e[32m[OK] Dotfiles updated and profile reloaded!\e[0m"
