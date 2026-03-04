@@ -2,3 +2,6 @@
 AppData/**
 Documents/**
 {{- end }}
+
+# VS Code settings change constantly via extensions — don't track
+AppData/Roaming/Code/User/settings.json

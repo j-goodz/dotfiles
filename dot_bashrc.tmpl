@@ -101,11 +101,10 @@ show-models() {
 }
 
 alias clauded='claude --dangerously-skip-permissions'
+alias claudedc='claude --dangerously-skip-permissions --continue'
 
 dotup() {
-    ~/bin/chezmoi update
-    ~/bin/chezmoi init
-    ~/bin/chezmoi apply -v
+    ~/bin/chezmoi update --force
     source ~/.bashrc
     echo -e "\e[32m[OK] Dotfiles updated and profile reloaded!\e[0m"
 }
